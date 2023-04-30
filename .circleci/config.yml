@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Install docker-compose
           command: |
-            apk add --no-cache 'py-pip==9.0.0-r1'
+            apk add --no-cache 'py-pip==23.1.2-r1'
             pip install 'docker-compose==1.15.0'
             docker-compose version
       - run:
@@ -24,3 +24,10 @@ jobs:
       #     name: Run the tests
       #     command: |
       #       docker-compose run web npm test
+      - deploy:
+          name: Push application docker image
+          commands: |
+            docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+            docker tag dockerapp_dockerapp $DOCKER_HUB_USER_ID/dockerapp:$CIRCLE_SHA1
+            docker tag dockerapp_dockerapp $DOCKER_HUB_USER_ID/dockerapp:latest
+            docker push $DOCKER_HUB_USER_ID/dockerapp:latest
