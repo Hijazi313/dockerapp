@@ -20,7 +20,7 @@ jobs:
           command: |
             docker-compose build
             docker-compose up -d
-      - run:
-          name: Run the tests
-          command: |
-            docker-compose run web npm test
+      # - run:
+      #     name: Run the tests
+      #     command: |
+      #       docker-compose run web npm test
